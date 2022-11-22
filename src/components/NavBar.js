@@ -5,7 +5,7 @@ const NavBar = () => {
   const [nav, setNav] = useState(false);
   const handleClick = () => setNav(!nav);
   return (
-    <nav className="fixed w-screen h-[80px] flex justify-between items-center px-4 bg-gray-900 text-white w-screen">
+    <nav className="fixed w-screen h-[80px] flex justify-between items-center px-4 bg-gray-900 text-white">
       <div className="px-5 xl:px-12 py-6 flex w-full items-center">
         <a className="text-3xl font-bold font-heading" href="/">
           Newsaly

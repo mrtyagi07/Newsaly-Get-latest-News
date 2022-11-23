@@ -6,13 +6,13 @@ const NavBar = () => {
   const handleClick = () => setNav(!nav);
   return (
     <nav className="fixed w-screen h-[80px] flex justify-between items-center px-4 bg-gray-900 text-white">
-      <div className="px-5 xl:px-12 py-6 flex w-full items-center">
+      <div className="px-5 xl:px-12 py-6 flex items-center">
         <a className="text-3xl font-bold font-heading" href="/">
           Newsaly
         </a>
       </div>
 
-      <ul className="hidden md:flex justify-between items-center px-4 mx-auto font-semibold font-heading space-x-12 ">
+      <ul className="hidden md:flex justify-between items-center px-4 font-semibold font-heading space-x-12 ">
         <li>
           <a className="hover:text-gray-400" href="/">
             Home

@@ -2,84 +2,82 @@ import React, { useState, useEffect } from "react";
 import { getAnimationType } from "react-scroll/modules/mixins/animate-scroll";
 import NewsItem from "./NewsItem";
 import Pagination from "./Pagination";
+import Spinner from "./Spinner";
 
-const News = () => {
+const News = (props) => {
   const [article, setArticle] = useState([]);
   const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState();
+  const [loading, setLoading] = useState(false);
+
   console.log(page);
 
-  const handleClickPrev = () => {
-    setPage(page - 1);
+  const hadlerPrevNext = (count) => {
     fetch(
-      `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=${page}`
+      `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=${
+        page + count
+      }&pageSize=${props.pageSize}`
     )
       .then((results) => results.json())
       .then((data) => {
         console.log(data);
         setArticle(data.articles);
       });
-    console.log(page);
+    setPage(page + count);
+  };
+
+  const handleClickPrev = () => {
+    setLoading(true);
+    hadlerPrevNext(-1);
+    setLoading(false);
   };
 
   const handleClickNext = () => {
-    setPage(page + 1);
-    fetch(
-      `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=${page}`
-    )
-      .then((results) => results.json())
-      .then((data) => {
-        console.log(data);
-        setArticle(data.articles);
-      });
+    if (!(page + 1 > Math.ceil(totalResults / props.pageSize))) {
+      setLoading(true);
+      hadlerPrevNext(1);
+      setLoading(false);
+    }
   };
 
   React.useEffect(() => {
+    setLoading(true);
     fetch(
-      `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=${page}`
+      `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${props.pageSize}`
     )
       .then((results) => results.json())
       .then((data) => {
         console.log(data);
         setArticle(data.articles);
+        setTotalResults(data.totalResults);
+        setLoading(false);
       });
   }, []);
 
-  // useEffect(() => {
-  //   async function getToken() {
-  //     let url =
-  //       "https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca";
-  //     let data = await fetch(url);
-  //     let parsedData = await data.json();
-  //     console.log(parsedData);
-  //     setArticle(parsedData.article);
-  //   }
-  // });
-
   return (
-    <>
-      <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5">
-        {article.map((element, i) => {
-          return (
-            <div
-              className="w-full lg:max-w-full lg:flex my-16 "
-              key={element.url}
-            >
-              <NewsItem
-                title={element.title ? element.title : ""}
-                description={element.description ? element.description : ""}
-                imageUrl={
-                  !element.urlToImage
-                    ? "https://media1.faz.net/ppmedia/aktuell/2440766482/1.8477515/facebook_teaser/alles-automatisch-roboter.jpg"
-                    : element.urlToImage
-                }
-                newsUrl={element.url}
-                source={element.source}
-                date={element.publishedAt}
-                author={element.author}
-              />
-            </div>
-          );
-        })}
+    <div>
+      {loading && <Spinner />}
+      <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 bg-purple-100 ">
+        {!loading &&
+          article.map((element, i) => {
+            return (
+              <div className="w-full lg:max-w-full lg:flex  " key={element.url}>
+                <NewsItem
+                  title={element.title ? element.title : ""}
+                  description={element.description ? element.description : ""}
+                  imageUrl={
+                    !element.urlToImage
+                      ? "https://media1.faz.net/ppmedia/aktuell/2440766482/1.8477515/facebook_teaser/alles-automatisch-roboter.jpg"
+                      : element.urlToImage
+                  }
+                  newsUrl={element.url}
+                  source={element.source}
+                  date={element.publishedAt}
+                  author={element.author}
+                />
+              </div>
+            );
+          })}
         ;
       </div>
       <div className="flex justify-between p-4">
@@ -106,6 +104,7 @@ const News = () => {
         <button
           onClick={handleClickNext}
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          disabled={page + 1 > Math.ceil(totalResults / props.pageSize)}
         >
           Next
           <svg
@@ -123,7 +122,7 @@ const News = () => {
           </svg>
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

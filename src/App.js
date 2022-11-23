@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div>
       <NavBar />
-      <News />
+      <News pageSize={5} />
     </div>
   );
 };

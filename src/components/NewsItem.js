@@ -21,7 +21,7 @@ const NewsItem = ({
 
   const realDate = newDate.toLocaleString("en-US", options);
   return (
-    <>
+    <div className="my-20">
       <div className="max-w-sm rounded shadow-lg">
         <img className="w-full h-[250px]" src={imageUrl} alt="News item" />
         <div className="px-6 py-4">
@@ -51,7 +51,7 @@ const NewsItem = ({
           </span>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

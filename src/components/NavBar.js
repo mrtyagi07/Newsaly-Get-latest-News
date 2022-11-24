@@ -1,44 +1,69 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-scroll";
+import { Link } from "react-router-dom";
 const NavBar = () => {
   const [nav, setNav] = useState(false);
   const handleClick = () => setNav(!nav);
   return (
     <nav className="fixed w-screen h-[80px] flex justify-between items-center px-4 bg-gray-900 text-white">
       <div className="px-5 xl:px-12 py-6 flex items-center">
-        <a className="text-3xl font-bold font-heading" href="/">
+        <Link className="text-3xl font-bold font-heading" to="/">
           Newsaly
-        </a>
+        </Link>
       </div>
 
       <ul className="hidden md:flex justify-between items-center px-4 font-semibold font-heading space-x-12 ">
         <li>
-          <a className="hover:text-gray-400" href="/">
+          <Link className="hover:text-purple-200" to="/">
             Home
-          </a>
+          </Link>
+        </li>
+
+        <li>
+          <Link className="hover:text-purple-200" to="/business">
+            Business
+          </Link>
         </li>
         <li>
-          <a className="hover:text-gray-400" href="/">
-            Category
-          </a>
+          <Link className="hover:text-purple-200" to="/entertainment">
+            Entertainment
+          </Link>
         </li>
         <li>
-          <a className="hover:text-gray-400" href="/">
+          <Link className="hover:text-purple-200" to="/general">
+            General
+          </Link>
+        </li>
+        <li>
+          <Link className="hover:text-purple-200" to="/health">
+            Health
+          </Link>
+        </li>
+        <li>
+          <Link className="hover:text-purple-200" to="/science">
+            Science
+          </Link>
+        </li>
+        <li>
+          <Link className="hover:text-purple-200" to="/technology">
+            Technology
+          </Link>
+        </li>
+
+        <li>
+          <Link className="hover:text-purple-200" to="/">
             About
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="hover:text-gray-400" href="/">
+          <Link className="hover:text-purple-200" to="/">
             Contact Us
-          </a>
+          </Link>
         </li>
       </ul>
-
       <div onClick={handleClick} className="md:hidden z-10">
         {!nav ? <FaBars /> : <FaTimes />}
       </div>
-
       <ul
         className={
           !nav
@@ -52,13 +77,39 @@ const NavBar = () => {
           </Link>
         </li>
         <li className="py-6 text-4xl">
+          <Link onClick={handleClick} to="about" smooth={true} duration={500}>
+            Business
+          </Link>
+        </li>
+        <li className="py-6 text-4xl">
+          <Link onClick={handleClick} to="about" smooth={true} duration={500}>
+            Entertainment
+          </Link>
+        </li>
+        <li className="py-6 text-4xl">
+          <Link onClick={handleClick} to="about" smooth={true} duration={500}>
+            General
+          </Link>
+        </li>
+        <li className="py-6 text-4xl">
+          <Link onClick={handleClick} to="about" smooth={true} duration={500}>
+            Health
+          </Link>
+        </li>
+        <li className="py-6 text-4xl">
+          <Link onClick={handleClick} to="about" smooth={true} duration={500}>
+            Science
+          </Link>
+        </li>
+        <li className="py-6 text-4xl">
           <Link
             onClick={handleClick}
-            to="category"
+            to="about"
             smooth={true}
             duration={500}
+            className="py-6 text-4xl"
           >
-            Category
+            Technology
           </Link>
         </li>
         <li className="py-6 text-4xl">

@@ -1,6 +1,5 @@
 import React from "react";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import Pagination from "./Pagination";
 
 const NewsItem = ({
   title,
@@ -22,7 +21,7 @@ const NewsItem = ({
   const realDate = newDate.toLocaleString("en-US", options);
   return (
     <div className="my-20">
-      <div className="max-w-sm rounded shadow-lg">
+      <div className="max-w-sm  rounded-lg shadow-lg">
         <img className="w-full h-[250px]" src={imageUrl} alt="News item" />
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">{title}</div>
@@ -39,16 +38,15 @@ const NewsItem = ({
             </span>
           </a>
         </div>
-        <div className="px-6 pt-4 pb-2">
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+        <div class="ml-3">
+          <p class="text-rose-900 text-sm font-bold mb-2">
             {author ? author : ""}
-          </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            {source.name ? source.name : ""}
-          </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            {realDate}
-          </span>
+          </p>
+
+          <div class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            <time datetime="2022-02-01">{realDate}</time>
+          </div>
+          <span>3 min</span>
         </div>
       </div>
     </div>

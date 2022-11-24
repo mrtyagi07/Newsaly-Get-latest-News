@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getAnimationType } from "react-scroll/modules/mixins/animate-scroll";
 import NewsItem from "./NewsItem";
-import Pagination from "./Pagination";
 import Spinner from "./Spinner";
+import PropTypes from "prop-types";
 
-const News = (props) => {
+const News = ({ country = "in", pageSize = 8, category = "general" }) => {
   const [article, setArticle] = useState([]);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState();
@@ -14,9 +13,9 @@ const News = (props) => {
 
   const hadlerPrevNext = (count) => {
     fetch(
-      `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=${
+      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=${
         page + count
-      }&pageSize=${props.pageSize}`
+      }&pageSize=${pageSize}`
     )
       .then((results) => results.json())
       .then((data) => {
@@ -33,7 +32,7 @@ const News = (props) => {
   };
 
   const handleClickNext = () => {
-    if (!(page + 1 > Math.ceil(totalResults / props.pageSize))) {
+    if (!(page + 1 > Math.ceil(totalResults / pageSize))) {
       setLoading(true);
       hadlerPrevNext(1);
       setLoading(false);
@@ -43,7 +42,7 @@ const News = (props) => {
   React.useEffect(() => {
     setLoading(true);
     fetch(
-      `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${props.pageSize}`
+      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`
     )
       .then((results) => results.json())
       .then((data) => {
@@ -57,7 +56,7 @@ const News = (props) => {
   return (
     <div>
       {loading && <Spinner />}
-      <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 bg-purple-100 ">
+      <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 bg-slate-100 ">
         {!loading &&
           article.map((element, i) => {
             return (
@@ -104,7 +103,7 @@ const News = (props) => {
         <button
           onClick={handleClickNext}
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          disabled={page + 1 > Math.ceil(totalResults / props.pageSize)}
+          disabled={page + 1 > Math.ceil(totalResults / pageSize)}
         >
           Next
           <svg
@@ -124,6 +123,12 @@ const News = (props) => {
       </div>
     </div>
   );
+};
+
+News.propTypes = {
+  country: PropTypes.string,
+  pageSize: PropTypes.number,
+  category: PropTypes.string,
 };
 
 export default News;

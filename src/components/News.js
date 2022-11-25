@@ -63,7 +63,12 @@ const News = ({ country = "in", pageSize = 8, category = "general" }) => {
   return (
     <div>
       {loading && <Spinner />}
-      <h1>Hi hello</h1>
+      <h1 className="p-4 text-center text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-black bg-slate-100">
+        Newsaly{" "}
+        <span className=" underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
+          latest news from {capitalizeFirstLetter(category)}
+        </span>
+      </h1>
       <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 bg-slate-100 ">
         {/* <InfiniteScroll
           dataLength={article.length}

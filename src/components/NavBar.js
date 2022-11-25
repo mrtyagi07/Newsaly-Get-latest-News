@@ -7,7 +7,7 @@ const NavBar = () => {
   const handleClick = () => setNav(!nav);
   return (
     <>
-      <nav className="fixed w-screen h-[80px] flex justify-between items-center px-4 bg-gray-900 text-white">
+      <nav className="w-screen h-[80px] flex justify-between items-center px-4 bg-gray-900 text-white">
         <div className="flex items-center">
           <Link className="text-3xl font-bold font-heading" to="/">
             Newsaly

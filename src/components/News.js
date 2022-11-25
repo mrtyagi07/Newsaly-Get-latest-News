@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = ({ country = "in", pageSize = 8, category = "general" }) => {
   const [article, setArticle] = useState([]);
@@ -39,6 +40,12 @@ const News = ({ country = "in", pageSize = 8, category = "general" }) => {
     }
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  document.title = `${capitalizeFirstLetter(category)} - Newsaly`;
+
   React.useEffect(() => {
     setLoading(true);
     fetch(
@@ -56,29 +63,36 @@ const News = ({ country = "in", pageSize = 8, category = "general" }) => {
   return (
     <div>
       {loading && <Spinner />}
+      <h1>Hi hello</h1>
       <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 bg-slate-100 ">
-        {!loading &&
-          article.map((element, i) => {
-            return (
-              <div className="w-full lg:max-w-full lg:flex  " key={element.url}>
-                <NewsItem
-                  title={element.title ? element.title : ""}
-                  description={element.description ? element.description : ""}
-                  imageUrl={
-                    !element.urlToImage
-                      ? "https://media1.faz.net/ppmedia/aktuell/2440766482/1.8477515/facebook_teaser/alles-automatisch-roboter.jpg"
-                      : element.urlToImage
-                  }
-                  newsUrl={element.url}
-                  source={element.source}
-                  date={element.publishedAt}
-                  author={element.author}
-                />
-              </div>
-            );
-          })}
-        ;
+        {/* <InfiniteScroll
+          dataLength={article.length}
+          next={this.fetchMoreData}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        > */}
+        {article.map((element, i) => {
+          return (
+            <div className="w-full lg:max-w-full lg:flex  " key={element.url}>
+              <NewsItem
+                title={element.title ? element.title : ""}
+                description={element.description ? element.description : ""}
+                imageUrl={
+                  !element.urlToImage
+                    ? "https://media1.faz.net/ppmedia/aktuell/2440766482/1.8477515/facebook_teaser/alles-automatisch-roboter.jpg"
+                    : element.urlToImage
+                }
+                newsUrl={element.url}
+                source={element.source}
+                date={element.publishedAt}
+                author={element.author}
+              />
+            </div>
+          );
+        })}
+        ;{/* </InfiniteScroll> */}
       </div>
+
       <div className="flex justify-between p-4">
         <button
           onClick={handleClickPrev}

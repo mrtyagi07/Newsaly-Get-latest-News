@@ -1,10 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Contact from "./components/Contact";
 import NavBar from "./components/NavBar";
 import News from "./components/News";
 import "./input.css";
 
 const App = () => {
+  const pageSize = 15;
   return (
     <div>
       <Router>
@@ -13,7 +15,12 @@ const App = () => {
           <Route
             path="/"
             element={
-              <News key="home" pageSize={5} country="in" category="general" />
+              <News
+                key="home"
+                pageSize={pageSize}
+                country="in"
+                category="general"
+              />
             }
           />
           <Route
@@ -21,7 +28,7 @@ const App = () => {
             element={
               <News
                 key="general"
-                pageSize={5}
+                pageSize={pageSize}
                 country="in"
                 category="general"
               />
@@ -32,7 +39,7 @@ const App = () => {
             element={
               <News
                 key="business"
-                pageSize={5}
+                pageSize={pageSize}
                 country="in"
                 category="business"
               />
@@ -44,7 +51,7 @@ const App = () => {
             element={
               <News
                 key="entertainment"
-                pageSize={5}
+                pageSize={pageSize}
                 country="in"
                 category="entertainment"
               />
@@ -53,7 +60,12 @@ const App = () => {
           <Route
             path="/health"
             element={
-              <News key="health" pageSize={5} country="in" category="health" />
+              <News
+                key="health"
+                pageSize={pageSize}
+                country="in"
+                category="health"
+              />
             }
           />
 
@@ -62,7 +74,7 @@ const App = () => {
             element={
               <News
                 key="science"
-                pageSize={5}
+                pageSize={pageSize}
                 country="in"
                 category="science"
               />
@@ -74,12 +86,13 @@ const App = () => {
             element={
               <News
                 key="technology"
-                pageSize={5}
+                pageSize={pageSize}
                 country="in"
                 category="technology"
               />
             }
           />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </Router>
     </div>

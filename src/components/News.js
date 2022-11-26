@@ -4,142 +4,110 @@ import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const News = ({ country = "in", pageSize = 8, category = "general" }) => {
-  const [article, setArticle] = useState([]);
+const News = ({
+  country = "in",
+  pageSize = 8,
+  category = "general",
+  setProgress,
+}) => {
+  const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
-  const [totalResults, setTotalResults] = useState();
-  const [loading, setLoading] = useState(false);
+  const [totalResults, setTotalResults] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-  console.log(page);
-
-  const hadlerPrevNext = (count) => {
-    fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=${
-        page + count
-      }&pageSize=${pageSize}`
-    )
-      .then((results) => results.json())
-      .then((data) => {
-        console.log(data);
-        setArticle(data.articles);
-      });
-    setPage(page + count);
-  };
-
-  const handleClickPrev = () => {
+  const updateNews = async () => {
+    setProgress(10);
+    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`;
     setLoading(true);
-    hadlerPrevNext(-1);
+    let data = await fetch(url);
+    setProgress(30);
+    let parsedData = await data.json();
+    setProgress(70);
+    setArticles(parsedData.articles);
+    setTotalResults(parsedData.totalResults);
     setLoading(false);
-  };
-
-  const handleClickNext = () => {
-    if (!(page + 1 > Math.ceil(totalResults / pageSize))) {
-      setLoading(true);
-      hadlerPrevNext(1);
-      setLoading(false);
-    }
+    setProgress(100);
   };
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  document.title = `${capitalizeFirstLetter(category)} - Newsaly`;
-
-  React.useEffect(() => {
-    setLoading(true);
-    fetch(
-      `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`
-    )
-      .then((results) => results.json())
-      .then((data) => {
-        console.log(data);
-        setArticle(data.articles);
-        setTotalResults(data.totalResults);
-        setLoading(false);
-      });
+  useEffect(() => {
+    document.title = `${capitalizeFirstLetter(category)} - Newsaly`;
+    updateNews();
+    // eslint-disable-next-line
   }, []);
+
+  // React.useEffect(() => {
+  //   setProgress(0);
+  //   setLoading(true);
+  //   fetch(
+  //     `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`
+  //   )
+  //     .then((results) => results.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setArticles(data.articles);
+  //       setTotalResults(data.totalResults);
+  //       setLoading(false);
+  //       setProgress(100);
+  //     });
+  // }, []);
+
+  const fetchMoreData = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`;
+    setPage(page + 1);
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    setArticles(articles.concat(parsedData.articles));
+    setTotalResults(parsedData.totalResults);
+  };
 
   return (
     <div>
-      {loading && <Spinner />}
-      <h1 className="p-4 text-center text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-black bg-slate-100">
+      <h1 className="p-4 text-center text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-black">
         Newsaly{" "}
         <span className=" underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
           latest news from {capitalizeFirstLetter(category)}
         </span>
       </h1>
-      <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 bg-slate-100 ">
-        {/* <InfiniteScroll
-          dataLength={article.length}
-          next={this.fetchMoreData}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        > */}
-        {article.map((element, i) => {
-          return (
-            <div className="w-full lg:max-w-full lg:flex  " key={element.url}>
-              <NewsItem
-                title={element.title ? element.title : ""}
-                description={element.description ? element.description : ""}
-                imageUrl={
-                  !element.urlToImage
-                    ? "https://media1.faz.net/ppmedia/aktuell/2440766482/1.8477515/facebook_teaser/alles-automatisch-roboter.jpg"
-                    : element.urlToImage
-                }
-                newsUrl={element.url}
-                source={element.source}
-                date={element.publishedAt}
-                author={element.author}
-              />
-            </div>
-          );
-        })}
-        ;{/* </InfiniteScroll> */}
-      </div>
 
-      <div className="flex justify-between p-4">
-        <button
-          onClick={handleClickPrev}
-          className="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white  focus:outline-none disabled:opacity-75"
-          disabled={page <= 1}
-        >
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 mr-2"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-          Previous
-        </button>
-        <button
-          onClick={handleClickNext}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          disabled={page + 1 > Math.ceil(totalResults / pageSize)}
-        >
-          Next
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 ml-2"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </button>
-      </div>
+      {loading && <Spinner />}
+      <InfiniteScroll
+        dataLength={articles.length}
+        next={fetchMoreData}
+        hasMore={articles.length !== totalResults}
+        loader={<Spinner />}
+        News
+      >
+        <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 ">
+          {!loading &&
+            articles.map((element, i) => {
+              return (
+                <div
+                  className="w-full lg:max-w-full lg:flex  "
+                  key={element.url}
+                >
+                  <NewsItem
+                    title={element.title ? element.title : ""}
+                    description={element.description ? element.description : ""}
+                    imageUrl={
+                      !element.urlToImage
+                        ? "https://media1.faz.net/ppmedia/aktuell/2440766482/1.8477515/facebook_teaser/alles-automatisch-roboter.jpg"
+                        : element.urlToImage
+                    }
+                    newsUrl={element.url}
+                    source={element.source}
+                    date={element.publishedAt}
+                    author={element.author}
+                  />
+                </div>
+              );
+            })}
+          ;{/* </InfiniteScroll> */}
+        </div>
+      </InfiniteScroll>
     </div>
   );
 };

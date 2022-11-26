@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Dropdown from "./Dropdown";
 
 const NavBar = () => {
   const [nav, setNav] = useState(false);
   const handleClick = () => setNav(!nav);
   return (
     <>
-      <nav className="w-screen h-[80px] flex justify-between items-center px-4 bg-gray-900 text-white">
+      <nav className="w-screen h-[80px] flex justify-between items-center px-4 bg-blue-800 text-white">
         <div className="flex items-center">
           <Link className="text-3xl font-bold font-heading" to="/">
             Newsaly
@@ -16,61 +17,91 @@ const NavBar = () => {
 
         <ul className="hidden md:flex justify-between items-center px-4 font-semibold font-heading space-x-12 ">
           <li>
-            <Link className="hover:text-purple-200" to="/">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/"
+            >
               Home
             </Link>
           </li>
 
           <li>
-            <Link className="hover:text-purple-200" to="/business">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/business"
+            >
               Business
             </Link>
           </li>
           <li>
-            <Link className="hover:text-purple-200" to="/entertainment">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/entertainment"
+            >
               Entertainment
             </Link>
           </li>
           <li>
-            <Link className="hover:text-purple-200" to="/general">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/general"
+            >
               General
             </Link>
           </li>
           <li>
-            <Link className="hover:text-purple-200" to="/health">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/health"
+            >
               Health
             </Link>
           </li>
           <li>
-            <Link className="hover:text-purple-200" to="/science">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/science"
+            >
               Science
             </Link>
           </li>
           <li>
-            <Link className="hover:text-purple-200" to="/technology">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/technology"
+            >
               Technology
             </Link>
           </li>
 
           <li>
-            <Link className="hover:text-purple-200" to="/">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/"
+            >
               About
             </Link>
           </li>
           <li>
-            <Link className="hover:text-purple-200" to="/contact">
+            <Link
+              className="hover:text-gray-300 hover:underline duration-300 "
+              to="/contact"
+            >
               Contact Us
             </Link>
           </li>
         </ul>
+        {/* HAMBURGER */}
         <div onClick={handleClick} className="md:hidden z-10">
           {!nav ? <FaBars /> : <FaTimes />}
         </div>
+
+        {/*  MOBILE MENU */}
         <ul
           className={
             !nav
               ? "hidden"
-              : "absolute top-0 left-0 w-full h-screen bg-gray-900 flex flex-col justify-center items-center"
+              : "absolute top-0 left-0  w-full h-screen bg-blue-800 flex flex-col justify-center items-center"
           }
         >
           <li className="py-6 text-4xl">

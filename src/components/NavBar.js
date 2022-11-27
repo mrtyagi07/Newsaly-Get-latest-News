@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Dropdown from "./Dropdown";
 
 const NavBar = () => {
   const [nav, setNav] = useState(false);

@@ -6,25 +6,28 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = ({
   country = "in",
-  pageSize = 8,
-  category = "general",
+  limit = 8,
+  categories = "general",
   setProgress,
+  languages,
+  secretKey,
 }) => {
-  const [articles, setArticles] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalResults, setTotalResults] = useState(0);
+  const [data, setData] = useState([]);
+  const [offset, setOffset] = useState(0);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const updateNews = async () => {
     setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`;
+    const url = `http://api.mediastack.com/v1/news?country=in&categories=${categories}&access_key=${secretKey}&offset=1&limit=${limit}&languages=${languages}`;
+    //`https://newsapi.org/v2/top-headlines?country=${country}&categories=${categories}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&offset=1&limit=${limit}`;
     setLoading(true);
     let data = await fetch(url);
     setProgress(30);
     let parsedData = await data.json();
     setProgress(70);
-    setArticles(parsedData.articles);
-    setTotalResults(parsedData.totalResults);
+    setData(parsedData.data);
+    setTotal(parsedData.total);
     setLoading(false);
     setProgress(100);
   };
@@ -34,34 +37,29 @@ const News = ({
   };
 
   useEffect(() => {
-    document.title = `${capitalizeFirstLetter(category)} - Newsaly`;
+    document.title = `${capitalizeFirstLetter(categories)} - Newsaly`;
     updateNews();
     // eslint-disable-next-line
   }, []);
 
-  // React.useEffect(() => {
-  //   setProgress(0);
-  //   setLoading(true);
-  //   fetch(
-  //     `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`
-  //   )
-  //     .then((results) => results.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setArticles(data.articles);
-  //       setTotalResults(data.totalResults);
-  //       setLoading(false);
-  //       setProgress(100);
-  //     });
-  // }, []);
-
   const fetchMoreData = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&page=1&pageSize=${pageSize}`;
-    setPage(page + 1);
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    setArticles(articles.concat(parsedData.articles));
-    setTotalResults(parsedData.totalResults);
+    const url = `http://api.mediastack.com/v1/news?country=in&categories=${categories}&access_key=${secretKey}&offset=${offset}&limit=${limit}&languages=${languages}`;
+
+    // const url = `https://newsapi.org/v2/top-headlines?country=${country}&categories=${categories}&apiKey=655d9812aa8d4aba80ac395b4063b6ca&offset=1&limit=${limit}`;
+    setOffset(offset + 1);
+
+    try {
+      // Fetch data from the API and parse it as JSON
+      const response = await fetch(url);
+      const parsedData = await response.json();
+      console.log(parsedData.data);
+      setData(data.concat(parsedData.data));
+      setTotal(parsedData.total);
+
+      // Handle any errors that may be thrown
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -69,21 +67,20 @@ const News = ({
       <h1 className="p-4 text-center text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-black">
         Newsaly{" "}
         <span className=" underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600">
-          latest news from {capitalizeFirstLetter(category)}
+          latest news from {capitalizeFirstLetter(categories)}
         </span>
       </h1>
 
       {loading && <Spinner />}
       <InfiniteScroll
-        dataLength={articles.length}
+        dataLength={data.length}
         next={fetchMoreData}
-        hasMore={articles.length !== totalResults}
+        hasMore={data.length !== total}
         loader={<Spinner />}
-        News
       >
         <div className="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-5 ">
           {!loading &&
-            articles.map((element, i) => {
+            data.map((element, i) => {
               return (
                 <div
                   className="w-full lg:max-w-full lg:flex  "
@@ -93,13 +90,13 @@ const News = ({
                     title={element.title ? element.title : ""}
                     description={element.description ? element.description : ""}
                     imageUrl={
-                      !element.urlToImage
+                      !element.image
                         ? "https://media1.faz.net/ppmedia/aktuell/2440766482/1.8477515/facebook_teaser/alles-automatisch-roboter.jpg"
-                        : element.urlToImage
+                        : element.image
                     }
                     newsUrl={element.url}
                     source={element.source}
-                    date={element.publishedAt}
+                    date={element.published_at}
                     author={element.author}
                   />
                 </div>
@@ -114,8 +111,8 @@ const News = ({
 
 News.propTypes = {
   country: PropTypes.string,
-  pageSize: PropTypes.number,
-  category: PropTypes.string,
+  limit: PropTypes.number,
+  categories: PropTypes.string,
 };
 
 export default News;

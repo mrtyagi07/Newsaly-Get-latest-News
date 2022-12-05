@@ -8,10 +8,10 @@ import "./input.css";
 import LoadingBar from "react-top-loading-bar";
 
 const App = () => {
-  const pageSize = 15;
-
+  const limit = 5,
+    languages = "en";
+  const secretKey = process.env.REACT_APP_NEWS_API;
   const [progress, setProgress] = useState(0);
-  console.log(progress);
 
   return (
     <div>
@@ -24,22 +24,26 @@ const App = () => {
             element={
               <News
                 setProgress={setProgress}
+                secretKey={secretKey}
                 key="home"
-                pageSize={pageSize}
+                limit={limit}
                 country="in"
-                category="general"
+                categories="general"
+                languages={languages}
               />
             }
           />
           <Route
-            path="/general"
+            path="/sports"
             element={
               <News
                 setProgress={setProgress}
-                key="general"
-                pageSize={pageSize}
+                secretKey={secretKey}
+                key="sports"
+                limit={limit}
                 country="in"
-                category="general"
+                categories="sports"
+                languages={languages}
               />
             }
           />
@@ -48,10 +52,12 @@ const App = () => {
             element={
               <News
                 setProgress={setProgress}
+                secretKey={secretKey}
                 key="business"
-                pageSize={pageSize}
+                limit={limit}
                 country="in"
-                category="business"
+                categories="business"
+                languages={languages}
               />
             }
           />
@@ -61,10 +67,12 @@ const App = () => {
             element={
               <News
                 setProgress={setProgress}
+                secretKey={secretKey}
                 key="entertainment"
-                pageSize={pageSize}
+                limit={limit}
                 country="in"
-                category="entertainment"
+                categories="entertainment"
+                languages={languages}
               />
             }
           />
@@ -73,10 +81,12 @@ const App = () => {
             element={
               <News
                 setProgress={setProgress}
+                secretKey={secretKey}
                 key="health"
-                pageSize={pageSize}
+                limit={limit}
                 country="in"
-                category="health"
+                categories="health"
+                languages={languages}
               />
             }
           />
@@ -86,10 +96,12 @@ const App = () => {
             element={
               <News
                 setProgress={setProgress}
+                secretKey={secretKey}
                 key="science"
-                pageSize={pageSize}
+                limit={limit}
                 country="in"
-                category="science"
+                categories="science"
+                languages={languages}
               />
             }
           />
@@ -99,13 +111,16 @@ const App = () => {
             element={
               <News
                 setProgress={setProgress}
+                secretKey={secretKey}
                 key="technology"
-                pageSize={pageSize}
+                limit={limit}
                 country="in"
-                category="technology"
+                categories="technology"
+                languages={languages}
               />
             }
           />
+          <Route path="/about" element={<Contact />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </Router>

@@ -43,9 +43,9 @@ const NavBar = () => {
           <li>
             <Link
               className="hover:text-gray-300 hover:underline duration-300 "
-              to="/general"
+              to="/sports"
             >
-              General
+              Sports
             </Link>
           </li>
           <li>
@@ -76,7 +76,7 @@ const NavBar = () => {
           <li>
             <Link
               className="hover:text-gray-300 hover:underline duration-300 "
-              to="/"
+              to="/about"
             >
               About
             </Link>
@@ -136,11 +136,11 @@ const NavBar = () => {
           <li className="py-6 text-4xl">
             <Link
               onClick={handleClick}
-              to="/general"
+              to="/sports"
               smooth={true}
               duration={500}
             >
-              General
+              Sports
             </Link>
           </li>
           <li className="py-6 text-4xl">

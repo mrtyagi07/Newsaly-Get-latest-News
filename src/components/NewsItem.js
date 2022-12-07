@@ -4,7 +4,7 @@ import { HiArrowNarrowRight } from "react-icons/hi";
 const NewsItem = ({
   title,
   description,
-  imageUrl,
+  image_url,
   newsUrl,
   source,
   date,
@@ -22,7 +22,7 @@ const NewsItem = ({
   return (
     <div>
       <div className="max-w-sm  rounded-lg shadow-lg">
-        <img className="w-full h-[250px] " src={imageUrl} alt="News item" />
+        <img className="w-full h-[250px] " src={image_url} alt="News item" />
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2">{title}</div>
           <p className="text-gray-700 text-base">{description}</p>
@@ -38,13 +38,13 @@ const NewsItem = ({
             </span>
           </a>
         </div>
-        <div class="ml-3">
-          <p class="text-rose-900 text-md font-bold mb-2">
+        <div className="ml-3">
+          <p className="text-rose-900 text-md font-bold mb-2">
             {author ? author : ""}
           </p>
 
-          <div class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            <time datetime="2022-02-01">{realDate}</time>
+          <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            <time dateTime="2022-02-01">{realDate}</time>
           </div>
           <span></span>
         </div>

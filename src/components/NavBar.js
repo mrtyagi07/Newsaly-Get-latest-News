@@ -107,7 +107,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/general"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               Home
@@ -117,7 +117,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/business"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               Business
@@ -127,7 +127,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/entertainment"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               Entertainment
@@ -137,7 +137,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/sports"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               Sports
@@ -147,7 +147,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/health"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               Health
@@ -157,7 +157,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/science"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               Science
@@ -167,7 +167,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/technology"
-              smooth={true}
+              smooth="true"
               duration={500}
               className="py-6 text-4xl"
             >
@@ -179,7 +179,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/about"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               About
@@ -189,7 +189,7 @@ const NavBar = () => {
             <Link
               onClick={handleClick}
               to="/contact"
-              smooth={true}
+              smooth="true"
               duration={500}
             >
               Contact Us

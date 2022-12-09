@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Contact from "./components/Contact";
-import Dropdown from "./components/Dropdown";
 import NavBar from "./components/NavBar";
 import News from "./components/News";
 import "./input.css";
 import LoadingBar from "react-top-loading-bar";
-import NavResponsive from "./components/NavResponsive";
 
 const App = () => {
   const limit = 5,

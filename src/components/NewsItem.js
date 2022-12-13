@@ -5,20 +5,18 @@ const NewsItem = ({
   title,
   description,
   image_url,
-  newsUrl,
+  url,
   source,
-  date,
-  author,
+  published_at,
+  // author,
 }) => {
-  const newDate = new Date(date);
-  let options = {
+  const realDate = new Date(published_at).toLocaleString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-  };
+  });
 
-  const realDate = newDate.toLocaleString("en-US", options);
   return (
     <div>
       <div className="max-w-sm  rounded-lg shadow-lg">
@@ -30,7 +28,7 @@ const NewsItem = ({
         <div className="px-6 pt-4 pb-2">
           <a
             className="w-[170px] bg-blue-900 text-white group border-2 px-6 py-3 my-2 flex items-center hover:bg-blue-600 hover:border-blue-600"
-            href={newsUrl}
+            href={url}
           >
             Read more
             <span className="group-hover:rotate-90 duration-300">
@@ -39,9 +37,9 @@ const NewsItem = ({
           </a>
         </div>
         <div className="ml-3">
-          <p className="text-rose-900 text-md font-bold mb-2">
+          {/* <p className="text-rose-900 text-md font-bold mb-2">
             {author ? author : ""}
-          </p>
+          </p> */}
 
           <div className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
             <time dateTime="2022-02-01">{realDate}</time>

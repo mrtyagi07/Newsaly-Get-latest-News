@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Contact from "./components/Contact";
-import NavBar from "./components/NavBar";
 import News from "./components/News";
 import "./input.css";
 import LoadingBar from "react-top-loading-bar";
+import NavBar from "./components/NavBar";
+import Home from "./components/Home";
 
 const App = () => {
   const limit = 5,
-    language = "en";
-  const secretKey = process.env.REACT_APP_NEWS_API;
+    language = "en",
+    country = "us";
+  const secretKey = process.env.REACT_APP_NEWS_API_TOKEN;
   const [progress, setProgress] = useState(0);
 
   return (
     <div>
       <Router>
-        <NavBar />
         <LoadingBar height={3} color="#f11946" progress={progress} />
-        <Routes>
+        <NavBar />
+
+        {/* <Routes>
           <Route
             path="/"
             element={
@@ -26,8 +29,8 @@ const App = () => {
                 secretKey={secretKey}
                 key="home"
                 limit={limit}
-                locale="in"
-                categories="general"
+                country={country}
+                industries="Technology"
                 language={language}
               />
             }
@@ -40,8 +43,8 @@ const App = () => {
                 secretKey={secretKey}
                 key="sports"
                 limit={limit}
-                locale="in"
-                categories="sports"
+                country={country}
+                industries="sports"
                 language={language}
               />
             }
@@ -54,8 +57,8 @@ const App = () => {
                 secretKey={secretKey}
                 key="business"
                 limit={limit}
-                locale="in"
-                categories="business"
+                country={country}
+                industries="business"
                 language={language}
               />
             }
@@ -69,8 +72,8 @@ const App = () => {
                 secretKey={secretKey}
                 key="entertainment"
                 limit={limit}
-                locale="in"
-                categories="entertainment"
+                country={country}
+                industries="entertainment"
                 language={language}
               />
             }
@@ -83,8 +86,8 @@ const App = () => {
                 secretKey={secretKey}
                 key="health"
                 limit={limit}
-                locale="in"
-                categories="health"
+                country={country}
+                industries="health"
                 language={language}
               />
             }
@@ -98,8 +101,8 @@ const App = () => {
                 secretKey={secretKey}
                 key="science"
                 limit={limit}
-                locale="in"
-                categories="science"
+                country={country}
+                industries="science"
                 language={language}
               />
             }
@@ -113,15 +116,15 @@ const App = () => {
                 secretKey={secretKey}
                 key="technology"
                 limit={limit}
-                locale="in"
-                categories="technology"
+                country={country}
+                industries="technology"
                 language={language}
               />
             }
           />
           <Route path="/about" element={<Contact />} />
           <Route path="/contact" element={<Contact />} />
-        </Routes>
+        </Routes> */}
       </Router>
     </div>
   );
